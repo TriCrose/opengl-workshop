@@ -24,14 +24,15 @@ public class OpenGLApp {
 		
 		ShaderProgram shader = new ShaderProgram(VertexShader.source, FragmentShader.source);
 		Mesh triangle = new Mesh(new float[] {
-			0.0f, 0.0f,
-			0.5f, 0.0f,
-			0.5f, 0.5f
+			0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+			0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
+			0.5f, 0.5f, 0.0f, 0.0f, 1.0f
 		});
 		
 		while (!glfwWindowShouldClose(window)) {
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			
+			shader.use();
 			triangle.draw();
 			
 			glfwPollEvents();

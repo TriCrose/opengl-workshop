@@ -6,6 +6,7 @@ import static org.lwjgl.opengl.GL30.*;
 public class ShaderProgram {
 	private int vertexID, fragmentID, programID;
 	public static final int positionLocation = 0;
+	public static final int colourLocation = 1;
 	
 	public ShaderProgram(String vertSource, String fragSource) {
 		vertexID = glCreateShader(GL_VERTEX_SHADER);
@@ -30,6 +31,7 @@ public class ShaderProgram {
 		glDetachShader(programID, fragmentID);
 		
 		glBindAttribLocation(programID, positionLocation, "position");
+		glBindAttribLocation(programID, colourLocation, "vertColour");
 	}
 	
 	public void use() {

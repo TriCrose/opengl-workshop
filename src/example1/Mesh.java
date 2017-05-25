@@ -16,7 +16,7 @@ public class Mesh {
 	public Mesh(float[] vertices) {
 		FloatBuffer buffer = BufferUtils.createFloatBuffer(vertices.length);
 		buffer.put(vertices).flip();
-		vertexCount = vertices.length / 2;
+		vertexCount = vertices.length / 5;
 		
 		vao = glGenVertexArrays();
 		glBindVertexArray(vao);
@@ -24,8 +24,11 @@ public class Mesh {
 		vbo = glGenBuffers();
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 		glBufferData(GL_ARRAY_BUFFER, buffer, GL_STATIC_DRAW);
-		glVertexAttribPointer(ShaderProgram.positionLocation, 2, GL_FLOAT, false, 0, 0);
+		
+		glVertexAttribPointer(ShaderProgram.positionLocation, 2, GL_FLOAT, false, 5 * Float.BYTES, 0 * Float.BYTES);
 		glEnableVertexAttribArray(ShaderProgram.positionLocation);
+		glVertexAttribPointer(ShaderProgram.colourLocation, 3, GL_FLOAT, false, 5 * Float.BYTES, 2 * Float.BYTES);
+		glEnableVertexAttribArray(ShaderProgram.colourLocation);
 	}
 	
 	public void draw() {

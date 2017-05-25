@@ -1,9 +1,11 @@
 package example1;
+
 public class FragmentShader {
 	public static final String source =
 		  "#version 140\n"
+		+ "in vec3 fragColour;"
 		+ "out vec3 colour;"
 		+ "void main() {"
-		+ "    colour = vec3(1.0);"
+		+ "    colour = fragColour;"
 		+ "}";
 }
