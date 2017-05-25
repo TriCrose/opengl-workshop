@@ -1,4 +1,4 @@
-package simple;
+package example1;
 public class FragmentShader {
 	public static final String source =
 		  "#version 140\n"
