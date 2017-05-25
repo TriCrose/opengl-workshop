@@ -20,9 +20,6 @@ public class OpenGLApp {
 		if (!glfwInit()) throw new IllegalStateException("Failed to initialise GLFW");	// Initialize
 		
 		glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
-		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 		
 		long window = glfwCreateWindow(1024, 768, "OpenGL Application", NULL, NULL);
 		if (window == NULL) throw new RuntimeException("Failed to create window");
