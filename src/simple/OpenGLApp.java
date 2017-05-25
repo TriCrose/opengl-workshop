@@ -1,3 +1,5 @@
+package simple;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 import org.joml.*;
@@ -9,6 +11,7 @@ import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
+import java.nio.FloatBuffer;
 import java.nio.file.Files;
 
 public class OpenGLApp {
@@ -20,7 +23,6 @@ public class OpenGLApp {
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 		
 		long window = glfwCreateWindow(1024, 768, "OpenGL Application", NULL, NULL);
 		if (window == NULL) throw new RuntimeException("Failed to create window");
@@ -34,6 +36,22 @@ public class OpenGLApp {
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);	// This is what the colour buffer is set to on clear
 		glEnable(GL_CULL_FACE);
 		glEnable(GL_DEPTH_TEST);
+		
+		// Vertex data
+		float[] vertices = {
+			0.0f, 0.0f,
+			0.5f, 0.0f,
+			0.5f, 0.5f
+		};
+		FloatBuffer buffer = BufferUtils.createFloatBuffer(vertices.length);
+		buffer.put(vertices).flip();
+		
+		int vao = glGenVertexArrays();
+		glBindVertexArray(vao);
+		
+		int vbo = glGenBuffers();
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glBufferData(GL_ARRAY_BUFFER, buffer, GL_STATIC_DRAW);
 		
 		// Shaders
 		int vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -52,8 +70,16 @@ public class OpenGLApp {
 		glLinkProgram(shaderProgram);
 		glUseProgram(shaderProgram);
 		
+		// Bind "position" shader variable
+		int positionLocation = glGetAttribLocation(shaderProgram, "position");
+		glVertexAttribPointer(positionLocation, 2, GL_FLOAT, false, 0, 0);
+		glEnableVertexAttribArray(positionLocation);
+		
 		while (!glfwWindowShouldClose(window)) {
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			
+			glDrawArrays(GL_TRIANGLES, 0, 3);
+			
 			glfwPollEvents();
 			glfwSwapBuffers(window);
 		}
