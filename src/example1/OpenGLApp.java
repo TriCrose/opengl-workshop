@@ -24,9 +24,15 @@ public class OpenGLApp {
 		
 		ShaderProgram shader = new ShaderProgram(VertexShader.source, FragmentShader.source);
 		Mesh triangle = new Mesh(new float[] {
-			0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
-			0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
-			0.5f, 0.5f, 0.0f, 0.0f, 1.0f
+			0.0f, 0.0f,
+			0.5f, 0.0f,
+			0.5f, 0.5f
+		}, new float[] {
+			1.0f, 0.0f, 0.0f,
+			0.0f, 1.0f, 0.0f,
+			0.0f, 0.0f, 1.0f
+		}, new int[] {
+			0, 1, 2
 		});
 		
 		while (!glfwWindowShouldClose(window)) {

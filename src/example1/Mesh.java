@@ -8,36 +8,51 @@ import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.*;
 
 import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 
 public class Mesh {
-	private int vao, vbo;
-	private final int vertexCount;
+	private int vao, indexBuffer;
+	private int positionVBO, colourVBO;
+	private int vertexCount;
 	
-	public Mesh(float[] vertices) {
-		FloatBuffer buffer = BufferUtils.createFloatBuffer(vertices.length);
-		buffer.put(vertices).flip();
-		vertexCount = vertices.length / 5;
+	private static int loadToBuffer(float[] data, int attribLocation, int size) {
+		FloatBuffer temp = BufferUtils.createFloatBuffer(data.length);
+		temp.put(data).flip();
 		
+		int vbo = glGenBuffers();
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glBufferData(GL_ARRAY_BUFFER, temp, GL_STATIC_DRAW);
+		glVertexAttribPointer(attribLocation, size, GL_FLOAT, false, 0, 0);
+		glEnableVertexAttribArray(attribLocation);
+		
+		return vbo;
+	}
+	
+	public Mesh(float[] vertices, float[] colours, int[] indices) {
 		vao = glGenVertexArrays();
 		glBindVertexArray(vao);
 		
-		vbo = glGenBuffers();
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, buffer, GL_STATIC_DRAW);
+		positionVBO = loadToBuffer(vertices, ShaderProgram.positionLocation, 2);
+		colourVBO = loadToBuffer(colours, ShaderProgram.colourLocation, 3);
 		
-		glVertexAttribPointer(ShaderProgram.positionLocation, 2, GL_FLOAT, false, 5 * Float.BYTES, 0 * Float.BYTES);
-		glEnableVertexAttribArray(ShaderProgram.positionLocation);
-		glVertexAttribPointer(ShaderProgram.colourLocation, 3, GL_FLOAT, false, 5 * Float.BYTES, 2 * Float.BYTES);
-		glEnableVertexAttribArray(ShaderProgram.colourLocation);
+		IntBuffer temp = BufferUtils.createIntBuffer(indices.length);
+		temp.put(indices).flip();
+		vertexCount = indices.length;
+		
+		indexBuffer = glGenBuffers();
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, temp, GL_STATIC_DRAW);
 	}
 	
 	public void draw() {
 		glBindVertexArray(vao);
-		glDrawArrays(GL_TRIANGLES, 0, vertexCount);
+		glDrawElements(GL_TRIANGLES, vertexCount, GL_UNSIGNED_INT, 0);
 	}
 	
 	public void delete() {
-		glDeleteBuffers(vbo);
+		glDeleteBuffers(indexBuffer);
+		glDeleteBuffers(positionVBO);
+		glDeleteBuffers(colourVBO);
 		glDeleteVertexArrays(vao);
 	}
 }
