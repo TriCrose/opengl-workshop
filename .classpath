@@ -2,15 +2,15 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/windows/lwjgl-glfw-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/windows/lwjgl-jemalloc-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/windows/lwjgl-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/windows/lwjgl-opengl-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/windows/lwjgl-stb-natives-windows.jar"/>
 	<classpathentry kind="lib" path="lib/joml-1.9.3.jar"/>
-	<classpathentry kind="lib" path="lib/lwjgl-glfw-natives-windows.jar"/>
 	<classpathentry kind="lib" path="lib/lwjgl-glfw.jar"/>
-	<classpathentry kind="lib" path="lib/lwjgl-jemalloc-natives-windows.jar"/>
 	<classpathentry kind="lib" path="lib/lwjgl-jemalloc.jar"/>
-	<classpathentry kind="lib" path="lib/lwjgl-natives-windows.jar"/>
-	<classpathentry kind="lib" path="lib/lwjgl-opengl-natives-windows.jar"/>
 	<classpathentry kind="lib" path="lib/lwjgl-opengl.jar"/>
-	<classpathentry kind="lib" path="lib/lwjgl-stb-natives-windows.jar"/>
 	<classpathentry kind="lib" path="lib/lwjgl-stb.jar"/>
 	<classpathentry kind="lib" path="lib/lwjgl.jar"/>
 	<classpathentry kind="output" path="bin"/>
